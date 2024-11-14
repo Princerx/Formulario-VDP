@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquete: Qual emoção você está sentindo hoje?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .option:hover {
+            background: #f0f0f0;
+        }
+
+        .option img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+
+        .option span {
+            font-size: 1.1em;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .message, .responses {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Qual emoção você está sentindo hoje?</h2>
+    
+    <div class="option" onclick="selectOption('Raiva')">
+        <img src="https://vidaeacao.com.br/wp-content/uploads/2024/07/raiva.png" alt="Raiva">
+        <span>Raiva</span>
+    </div>
+    
+    <div class="option" onclick="selectOption('Medo')">
+        <img src="https://i0.wp.com/essenciaexponencial.com.br/wp-content/uploads/2023/11/personagem-medo.jpg?w=398&ssl=1" alt="Medo">
+        <span>Medo</span>
+    </div>
+    
+    <div class="option" onclick="selectOption('Nojo')">
+        <img src="https://www.folhadepiraju.com/assets/uploads/images/image%20(5).png" alt="Nojo">
+        <span>Nojo</span>
+    </div>
+    
+    <div class="option" onclick="selectOption('Alegria')">
+        <img src="https://i0.wp.com/essenciaexponencial.com.br/wp-content/uploads/2022/05/Blog-Essencia-Exponencial-INTERNO-2-1.jpg?resize=1024%2C512&ssl=1" alt="Alegria">
+        <span>Alegria</span>
+    </div>
+    
+    <div class="option" onclick="selectOption('Tristeza')">
+        <img src="https://i0.wp.com/essenciaexponencial.com.br/wp-content/uploads/2023/11/tristeza.gif?resize=500%2C300&ssl=1" alt="Tristeza">
+        <span>Tristeza</span>
+    </div>
+    
+    <div class="option" onclick="selectOption('Ansiedade')">
+        <img src="https://p2.trrsf.com/image/fget/cf/774/0/images.terra.com/2024/07/05/470483781-345c2efe26361da50f0d4aa10518c9cf.jpg" alt="Ansiedade">
+        <span>Ansiedade</span>
+    </div>
+    
+    <button class="submit-btn" onclick="submitResponse()">Enviar Resposta</button>
+    <div class="message" id="message"></div>
+    
+    <div class="responses" id="responses"></div> <!-- Exibe as respostas capturadas -->
+</div>
+
+<script>
+    let selectedOption = "";
+
+    function selectOption(option) {
+        selectedOption = option;
+        document.querySelectorAll('.option').forEach(el => el.style.backgroundColor = '#fff');
+        event.currentTarget.style.backgroundColor = '#d3d3d3';
+    }
+
+    function submitResponse() {
+        if (selectedOption) {
+            // Salva a resposta no localStorage
+            let responses = JSON.parse(localStorage.getItem('responses')) || [];
+            responses.push(selectedOption);
+            localStorage.setItem('responses', JSON.stringify(responses));
+            
+            document.getElementById('message').innerText = "Obrigado por responder!";
+            displayResponses(); // Atualiza a lista de respostas capturadas
+        } else {
+            document.getElementById('message').innerText = "Por favor, selecione uma emoção.";
+        }
+    }
+
+    function displayResponses() {
+        let responses = JSON.parse(localStorage.getItem('responses')) || [];
+        let responsesContainer = document.getElementById('responses');
+        
+        if (responses.length > 0) {
+            responsesContainer.innerHTML = "<h3>Respostas capturadas:</h3><ul>" + 
+                responses.map(response => `<li>${response}</li>`).join('') + 
+                "</ul>";
+        } else {
+            responsesContainer.innerHTML = "<p>Nenhuma resposta capturada ainda.</p>";
+        }
+    }
+
+    // Exibe as respostas ao carregar a página
+    displayResponses();
+</script>
+
+</body>
+</html>
